@@ -86,18 +86,18 @@
           <h4 class="modal-title">新增分类</h4>
         </div>
         <div class="modal-body">
-          <form>
+          <form id="article_category-addCategory">
             <!-- 用一个文本框来保存当前编辑的 分类id -->
             <!-- <input type="text" style="display: none" name="" id="recipient-id"> -->
             <!-- 隐藏域 特性:默认就是隐藏的 -->
             <input type="hidden" name="id" id="recipient-id">
             <div class="form-group">
               <label for="recipient-name" class="control-label">分类名称:</label>
-              <input type="text" name="name" class="form-control" id="recipient-name">
+              <input type="text" name="name" class="form-control" id="recipient-name" name="name">
             </div>
             <div class="form-group">
               <label for="message-text" class="control-label">分类别名:</label>
-              <input type="text" name="slug" class="form-control" id="recipient-slug">
+              <input type="text" name="slug" class="form-control" id="recipient-slug" name="slug">
             </div>
           </form>
         </div>
@@ -108,7 +108,7 @@
       </div>
     </div>
   </div>
-
+  
   <script src="js/jquery-1.12.4.min.js"></script>
   <script src="js/bootstrap/js/bootstrap.min.js"></script>
   <script src="./js/template-web.js"></script>
@@ -119,13 +119,18 @@
     });
 
     $('#model_shutoff').click(function () {
+
       $('#addModal').modal('hide');
     });
+    $('#model_add').click(function(){
+            $('#article_category-addCategory').submit();
+          $('#addModal').modal('hide');
+          });
   </script>
-
+<script src="js/article_category.js"></script>
   <!-- 业务逻辑代码 -->
   <script>
-    
+  
   </script>
 </body>
 
