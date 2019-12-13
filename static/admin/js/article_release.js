@@ -9,18 +9,21 @@ $('#exampleInputFile').on('change', function () {
 $('#articleForm').on('click', function (e) {
     var formData = new FormData(this);
     if (e.target.id=='issue'){
-        formData.append('state','1')
+        formData.append('state','已发布')
     }else if (e.target.id=='draft'){
         formData.append('state','')
     }
-    $.ajax({
-        url: 'http://localhost:8080/api/v1/admin/article/publish',
-        data: formData,
-        type: 'post',
-        processData: false,
-        contentType: false,
-        success: function () {
-            location.href='/admin/article_list.html'
-        }
-    })
+    if (e.target.id=='issue' || e.target.id=='draft'){
+        $.ajax({
+            url: 'http://localhost:8080/api/v1/admin/article/publish',
+            data: formData,
+            type: 'post',
+            processData: false,
+            contentType: false,
+            success: function (result) {
+                console.log(result)
+                // location.href='/admin/article_list.html'
+            }
+        })
+    }
 });
