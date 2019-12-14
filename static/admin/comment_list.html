@@ -30,33 +30,13 @@
           </tr>
         </thead>
         <tbody id="commentBox">
-          <tr>
-            <td>小周</td>
-            <td>这是一条测试评论，欢迎光临</td>
-            <td>《世界，你好》</td>
-            <td>2017-07-04 12:00:00</td>
-            <td>已批准</td>
-            <td class="text-center">
-              <a href="javascript:;" class="btn btn-warning btn-xs">拒绝</a>
-              <a href="javascript:;" class="btn btn-danger btn-xs">删除</a>
-            </td>
-          </tr>
+         
         </tbody>
       </table>
 
-      <div class="row text-center">
-        <ul class="pagination pagination-sm">
-          <li class="page-item first disabled"><a href="#" class="page-link">首页</a></li>
-          <li class="page-item prev disabled"><a href="#" class="page-link">上一页</a></li>
-          <li class="page-item active"><a href="#" class="page-link">1</a></li>
-          <li class="page-item"><a href="#" class="page-link">2</a></li>
-          <li class="page-item"><a href="#" class="page-link">3</a></li>
-          <li class="page-item"><a href="#" class="page-link">4</a></li>
-          <li class="page-item"><a href="#" class="page-link">5</a></li>
-          <li class="page-item"><a href="#" class="page-link">6</a></li>
-          <li class="page-item"><a href="#" class="page-link">7</a></li>
-          <li class="page-item next"><a href="#" class="page-link">下一页</a></li>
-          <li class="page-item last"><a href="#" class="page-link">尾页</a></li>
+      <div class="row text-center" >
+        <ul class="pagination pagination-sm" id="pageBox">
+         <!-- 页码渲染 -->
         </ul>
       </div>
 
@@ -73,9 +53,140 @@
     })
   </script>
 
-  <!-- 业务逻辑代码 -->
-  <script>
-  </script>
+<!-- 业务逻辑 -->
+
+<!-- 列表内容渲染模板 -->
+<script type="text/html" id="comment_tpl">
+  {{each data.data}}
+  <tr style={{$value.state == "待审核"?"background:#ddf3ff":($value.state=="已通过"?"background:#fff":"background:#eee")}} >
+    <td>{{$value.author}}</td>
+    <td>{{$value.content}}</td>
+    <td>{{$value.title}}</td>
+    <td>{{$value.date}} {{$value.time}}</td>
+    <td>{{$value.state}}</td>
+    <td class="text-center">
+      <a href="javascript:;" class="btn  btn-xs {{$value.state == "待审核" ? 'btn-info' : ($value.state=="已通过"?'btn-warning':'')}} " data-id="{{$value.id}}"  data-status="{{$value.state}}" id="pass" >{{$value.state == "待审核" ?'批准':($value.state=='已通过'?'驳回':'') }}</a>
+      <a href="javascript:;" class="btn btn-danger btn-xs"  data-id="{{$value.id}}"  id="delete">删除</a>
+    </td>
+  </tr>
+  {{/each}}
+</script>
+
+<!-- 分页渲染模板 -->
+
+<script type="text/html" id="page_tpl">
+
+  <li class="page-item"><a href="#" class="page-link" id="last">上一页</a></li>
+
+
+<li class="page-item"><a href="#" class="page-link"  id="lili" >{{name}}</a></li>
+<li class="page-item"><a href="#" class="page-link"  id="lili" >{{name+1}}</a></li>
+<li class="page-item"><a href="#" class="page-link"  id="lili" >{{name+2}}</a></li>
+<li class="page-item"><a href="#" class="page-link"  id="lili" >{{name+3}}</a></li>
+<li class="page-item"><a href="#" class="page-link"  id="lili" >{{name+4}}</a></li>
+<li class="page-item"><a href="#" class="page-link"  id="lili" >{{name+5}}</a></li>
+
+  <li class="page-item"><a href="#" class="page-link" id="next">下一页</a></li>
+
+
+
+</script>
+
+
+<!-- <% for(var i = 0;i < 3;i++){ %>
+				
+  <li class="page-item"><a href="#" class="page-link"  id="lili" >{{i}}</a></li>
+        
+<% } %> -->
+
+
+
+<script>
+var num=1;
+// 下一页
+$('#pageBox').on('click','#next',function(){
+  num++;
+  page(num)
+  return num
+})
+// 上一页
+$('#pageBox').on('click','#last',function(){
+  num=num-1;
+  if(num<1){
+   num=1
+  }
+ page(num)
+ return num
+})
+
+
+// 点击事件
+$('#pageBox').on('click','#lili',function(){
+  var nn= parseInt($(this).html())
+  num=nn
+  $.ajax({
+      type: 'get',
+      url: 'http://localhost:8080/api/v1/admin/comment/search',
+      data:{
+      page:num
+        
+      },
+      success: function (response) {
+      response.name=num
+      var html=template('comment_tpl',response)
+      $('#commentBox').html(html)
+      // var pageHtml=template('page_tpl',response)
+      // $('#pageBox').html(pageHtml)  
+      }
+    })
+  // return false
+})
+
+
+
+
+// 页面渲染
+$.ajax({
+    type: 'get',
+    url: 'http://localhost:8080/api/v1/admin/comment/search',
+  data:{
+     page:num,
+     perpage:3
+     },
+    success: function (response) {
+    response.name=num
+    var html=template('comment_tpl',response)
+    $('#commentBox').html(html)
+    var pageHtml=template('page_tpl',response)
+    $('#pageBox').html(pageHtml)  
+    }
+  })
+
+
+  function page(page){
+      $.ajax({
+      type: 'get',
+      url: 'http://localhost:8080/api/v1/admin/comment/search',
+      data:{
+      page:page,
+      perpage:3
+      },
+      success: function (response) {
+      response.name=num
+      var html=template('comment_tpl',response)
+      $('#commentBox').html(html)
+      var pageHtml=template('page_tpl',response)
+      $('#pageBox').html(pageHtml)  
+      }
+    })
+  }
+
+</script>
+
+
+<script src="./js/comment_list.js"></script> 
+
 </body>
 
 </html>
+
