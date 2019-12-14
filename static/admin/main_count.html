@@ -176,7 +176,6 @@
     type: 'get',
     url: 'http://localhost:8080/api/v1/admin/data/category',
     success:function (result) {
-      console.log(result);
       var oPieopt = {
         title: {
           top: 10,
@@ -253,12 +252,11 @@
   });
 
 
+    var oColumn = echarts.init(document.getElementById('column_show'));
   $.ajax({
     url:'http://localhost:8080/api/v1/admin/data/visit',
     type:'get',
     success:function (result) {
-      console.log(result)
-      var oColumn = echarts.init(document.getElementById('column_show'));
       var oColumnopt = {
         title: {
           text: '文章访问量',
@@ -297,7 +295,7 @@
         calculable: true,
         xAxis: [{
           type: 'category',
-          data: ['1月', '2月', '3月', '4月', '5月']
+          data: []
         }],
         yAxis: [{
           name: '访问量',
@@ -315,8 +313,9 @@
               color: '#fd956a'
             }
           },
-          data: [800, 708, 920, 1090, 1200]
-        },
+          data: []
+        }
+/*        ,
           {
             name: '会生活',
             type: 'bar',
@@ -358,7 +357,7 @@
               }
             },
             data: [600, 508, 720, 890, 1000]
-          }
+          }*/
         ],
         grid: {
           show: true,
@@ -390,15 +389,16 @@
           }
         ]
       };
-      oColumnopt.xAxis[0].data.push(result.data)
+      for (var k in result.data){
+        oColumnopt.xAxis[0].data.push(k)
+        oColumnopt.series[0].data.push(result.data[k])
+      }
+
       oColumn.setOption(oColumnopt)
     }
   })
-
-
   </script>
 <script>
-
 </script>
 </body>
 
