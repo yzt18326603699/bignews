@@ -1,7 +1,5 @@
 //获取该条数据的 id
-//alert(11)
 var id = getUrlParams('id')
-// console.log(id);
 
 //获取文章数据
 // 文章列表展示页

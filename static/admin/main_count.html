@@ -186,7 +186,7 @@
           trigger: 'item',
           formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
-        color: [],
+        color: ['#ff3040','#683aa3','#37ffec','#ffc261','#bff261'],
         legend: {
           x: 'center',
           top: 65,
@@ -244,8 +244,8 @@
         oPieopt.legend.data.push(v.name)
         //设置颜色
         //  生成随机颜色
-        var str =('#'+Math.random()*1000000).slice(0,7)
-        oPieopt.color.push(str)
+        // var str =('#'+Math.random()*1000000).slice(0,7)
+        // oPieopt.color.push(str)
       });
       oPie.setOption(oPieopt);
     }

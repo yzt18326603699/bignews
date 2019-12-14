@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -81,16 +82,22 @@
                 return;
             }
             //当数据获取了后，需要查看接口文档，找到登录的情况，把对应的参数传递进去
-            //2-发送ajax请求-登录
+            //发送ajax请求-登录
             $.ajax({
                 type: 'post',
                 url: 'http://localhost:8080/api/v1/admin/user/login',
                 data: data,
                 success: function(result) {
+                    console.log(result.code);
+                    // 判断登录状态码是否正确
+                    if (result.code != 200) {
+                        alert('用户名密码不正确')
+                        return
+                    }
                     console.log(result);
-                    //3-把登录成功响应回来的token保存到localStorage中
+                    //把登录成功响应回来的token保存到localStorage中
                     window.localStorage.setItem('token', result.token);
-                    //4-跳转到后台首页
+                    //跳转到后台首页
                     location.href = 'index.html';
                 }
             });

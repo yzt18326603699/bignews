@@ -16,9 +16,31 @@ const db = require("./db")
 
 const app = express()
 
-// 托管静态资源
-app.use(express.static('static'))
 
+
+/*// 引入session模块
+var session = require('express-session');
+// session配置
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
+}));
+app.set("view engine", "ejs");
+
+// 判断用户是否登录
+app.get('/login/status', (req, res) => {
+  if (req.session && req.session.userInfo) {
+    const s = `var isLogin = true; var userId = \"${req.session.userInfo._id}\"`;
+    res.send(s)
+  }else {
+    res.send('var isLogin = false')
+  }
+}
+)*/
+
+// 托管静态资源
+app.use(express.static('static'));
 
 // 中间件 - 跨域
 app.use(cors())

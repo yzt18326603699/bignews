@@ -99,10 +99,8 @@
         
 <% } %> -->
 
-
-
 <script>
-var num=1;
+var num = 1;
 // 下一页
 $('#pageBox').on('click','#next',function(){
   num++;
@@ -111,7 +109,7 @@ $('#pageBox').on('click','#next',function(){
 })
 // 上一页
 $('#pageBox').on('click','#last',function(){
-  num=num-1;
+  num = num-1;
   if(num<1){
    num=1
   }
@@ -129,7 +127,6 @@ $('#pageBox').on('click','#lili',function(){
       url: 'http://localhost:8080/api/v1/admin/comment/search',
       data:{
       page:num
-        
       },
       success: function (response) {
       response.name=num
@@ -151,7 +148,6 @@ $.ajax({
     url: 'http://localhost:8080/api/v1/admin/comment/search',
   data:{
      page:num,
-     perpage:3
      },
     success: function (response) {
     response.name=num
@@ -169,7 +165,6 @@ $.ajax({
       url: 'http://localhost:8080/api/v1/admin/comment/search',
       data:{
       page:page,
-      perpage:3
       },
       success: function (response) {
       response.name=num

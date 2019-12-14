@@ -5,6 +5,21 @@ $('#exampleInputFile').on('change', function () {
     $('#coverImg').prop('src', imgUrl)
 });
 
+//获取文字类别
+$.ajax({
+    url:'http://localhost:8080/api/v1/admin/category/list',
+    success:function (result) {
+        console.log(result)
+        var Tpl = `
+        {{each data}}
+        <option value="{{$value.id}}">{{$value.name}}</option>
+        {{/each}}
+        `
+        var html = template.render(Tpl,result)
+        $('#article_category').html(html)
+    }
+});
+
 //发布文章,表单提交事件
 $('#articleForm').on('click', function (e) {
     var formData = new FormData(this);
@@ -22,7 +37,7 @@ $('#articleForm').on('click', function (e) {
             contentType: false,
             success: function (result) {
                 console.log(result)
-                location.href='/admin/article_list.html'
+                // location.href='/admin/article_list.html'
             }
         })
     }
