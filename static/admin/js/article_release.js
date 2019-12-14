@@ -22,7 +22,7 @@ $('#articleForm').on('click', function (e) {
             contentType: false,
             success: function (result) {
                 console.log(result)
-                // location.href='/admin/article_list.html'
+                location.href='/admin/article_list.html'
             }
         })
     }

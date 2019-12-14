@@ -366,7 +366,9 @@ module.exports = {
         msg: "数据获取成功",
         data: {
           totalCount: totalArticleRes.length,
-          totalPage: Math.ceil(totalArticleRes.length / perpage),
+          pages: Math.ceil(totalArticleRes.length / perpage),
+          page: page,
+          display:[1,2,3,4,5,6,7],
           data: pageArticleRes
         }
       });
