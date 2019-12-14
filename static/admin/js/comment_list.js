@@ -44,5 +44,20 @@
     return;
   }
 
+  if(status=="已拒绝"){
+    $.ajax({
+      type: 'post',
+      url: 'http://localhost:8080/api/v1/admin/comment/pass',
+      data:{id},
+      success: function (response) {
+        page(num); 
+        
+      }
+    })  
+    return;
+  }
+
+
+
   })
   

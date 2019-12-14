@@ -9,7 +9,7 @@ function getUrlParams(name) {
 		}
 	}
     // 参数不存在，则返回-1
-	return -1;
+	return false;
 }
 
 // 最新评论
@@ -17,7 +17,6 @@ $.ajax({
 	type: 'get',
 	url: 'http://localhost:8080/api/v1/index/latest_comment',
 	success: function (response) {
-		console.log(response)
 		var new_tpl =`
             {{each data}}
             {{if $value.state == '已通过'}}
@@ -57,7 +56,6 @@ $.ajax({
 	success: function (response) {
 		response.num=1
 
-
 		var jiaodian_tpl=`
           {{each data}}
           <li><a href="javascript:;">{{num++}} . {{$value.intro}}</a></li>
@@ -67,4 +65,12 @@ $.ajax({
 		var html=template.render(jiaodian_tpl,response)
 		$('#jiaodianBox').html(html)
 	}
+})
+
+// 搜索栏
+$('#search_btn_id').on('click',function(){
+	var search=$('#search_id').val()
+	// console.log(search);
+	location.href = "http://localhost:8080/list.html?key=" + search
+
 })

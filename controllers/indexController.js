@@ -119,6 +119,7 @@ module.exports = {
   },
   // 文章搜索
   async search(req, res) {
+
     //   res.send('/query')
     // 数据获取
     const { key, type } = req.query;
@@ -196,8 +197,10 @@ module.exports = {
         // 模糊查询
         where
       });
+      var page1 = req.query.page
       res.send({
         code: 200,
+        page: page1,
         msg: "数据获取成功",
         data: {
           totalCount: totalArticleRes.length,
@@ -219,6 +222,7 @@ module.exports = {
       });
       res.send({
         code: 200,
+
         msg: "获取成功",
         data: categoryRes
       });
