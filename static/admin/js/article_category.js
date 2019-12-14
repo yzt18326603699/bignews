@@ -14,7 +14,7 @@ $.ajax ({
 
 
 //编辑渲染
-$('.category_table').on('click','#bj',function(){
+$('.category_table').unbind('click').on('click','#bj',function(){
     var id=parseInt($(this).attr('data-id'))
     $('#xzfl').html('修改分类')
     $('#model_add').html('修改')
@@ -36,7 +36,7 @@ $('.category_table').on('click','#bj',function(){
       })
 
 //修改
-$('#article_category-addCategory').on('submit',function(){
+$('#article_category-addCategory').unbind('submit').on('submit',function(){
    if($('#xzfl').html()=='修改分类'){
     // alert(999)
     var nameval  =  $('#recipient-name').val()
@@ -84,7 +84,6 @@ $('#article_category-addCategory').on('submit',function(){
                         slug:slugval},
                         success:function(response){
                             console.log(response);
-                            alert('新增成功')
                             location.reload()
                         },
                     })
@@ -96,28 +95,18 @@ $('#article_category-addCategory').on('submit',function(){
 
 
 //删除
-$('#category_search_id').on('click','.delete',function(){
-   if (confirm('你真的要删除吗')){
+$('#category_search_id').unbind('click').on('click','.delete',function(){
     var id=$(this).attr('data-id');
-    $.ajax({
-        type:'post',
-        url:'http://localhost:8080/api/v1/admin/category/delete',
-        
-        data:{id},
-        success:function(response){
-            // 页面重绘
-            $.ajax ({
-                type:'get',
-                url:'http://localhost:8080/api/v1/admin/category/list',
-                success:function(response){
-            
-                    // console.log(response);
-                    var html= template('category_search_tpl',response)
-                    // console.log(html);
-                    $('#category_search_id').html(html);
-                    
-                }    
-            })
-        }
-    })}
+    if (confirm('是否删除')){
+        $.ajax({
+            type:'post',
+            url:'http://localhost:8080/api/v1/admin/category/delete',
+            data:{id},
+            success:function(){
+                location.reload()
+            }
+        })
+    }
+
+
 })
